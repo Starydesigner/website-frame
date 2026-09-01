@@ -1077,6 +1077,148 @@
     .footer a:hover {
       color: var(--text-sub);
     }
+
+    /* FAQ SECTION (MINIMAL ACCORDION) */
+    .faq-section {
+      padding: 90px 0 100px;
+      border-top: 1px solid var(--border);
+      position: relative;
+    }
+    .faq-container {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .faq-list {
+      margin-top: 36px;
+      display: flex;
+      flex-direction: column;
+    }
+    .faq-item {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      transition: border-color 0.2s ease;
+    }
+    .faq-item:first-child {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .faq-item:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+    .faq-question {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 22px 4px;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.15s ease;
+    }
+    .faq-question:hover {
+      color: var(--accent);
+    }
+    .faq-icon {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--text-muted);
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease;
+    }
+    .faq-item.active .faq-icon {
+      transform: rotate(45deg);
+      color: var(--accent);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, padding 0.3s ease;
+      padding: 0 4px;
+    }
+    .faq-item.active .faq-answer {
+      opacity: 1;
+      padding-bottom: 24px;
+    }
+    .faq-answer-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      color: #cbd5e1;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+    .faq-method-card {
+      background: rgba(18, 20, 29, 0.65);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 18px;
+    }
+    .faq-method-title {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .faq-method-desc {
+      color: var(--text-sub);
+      font-size: 13.5px;
+      line-height: 1.65;
+    }
+    .faq-method-desc ol {
+      margin: 4px 0 0 20px;
+    }
+    .faq-method-desc li {
+      margin-bottom: 4px;
+    }
+    .faq-cmd-box {
+      margin-top: 10px;
+      background: #06070a;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      padding: 9px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--cyan);
+    }
+    .faq-cmd-code {
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .faq-copy-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: 11px;
+      color: var(--text-sub);
+      font-family: var(--font-pixel);
+      cursor: pointer;
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+    .faq-copy-btn:hover {
+      background: rgba(255, 255, 255, 0.14);
+      color: var(--text);
+    }
   </style>
 </head>
 <body>
@@ -1102,6 +1244,7 @@
       <div class="nav-links">
         <a href="#scenarios" class="nav-link">场景对比</a>
         <a href="#highlights" class="nav-link">项目亮点</a>
+        <a href="#faq" class="nav-link">常见问题</a>
         <a href="https://github.com/Starydesigner/ShotMock/releases" class="nav-cta js-download-btn">
           <svg width="12" height="12" viewBox="0 0 814 1000" fill="currentColor"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76.5 0-103.7 40.8-165.9 40.8s-105.6-57.8-155.5-127.4c-58.8-82-106.5-209.3-106.5-330.5 0-194.6 126.4-298.1 250.8-298.1 66.1 0 121.2 43.4 162.7 43.4 39.5 0 101.1-46 176.3-46 28.5 0 130.9 2.6 198.3 99.2zM554.1 159.4c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 103.5-30.4 135.5-71.3z"/></svg>
           下载
@@ -1560,6 +1703,59 @@
     </div>
   </section>
 
+  <!-- FAQ SECTION (ACCORDION) -->
+  <section class="faq-section" id="faq">
+    <div class="container faq-container">
+      <div style="text-align:center;">
+        <span class="section-tag">[ FAQ ]</span>
+        <h2 class="section-title" style="margin-bottom:8px;">常见问题</h2>
+        <p class="section-desc">关于安装、系统权限与使用技巧的解答</p>
+      </div>
+
+      <div class="faq-list">
+        <!-- FAQ 1: Apple 无法验证处理方式 -->
+        <div class="faq-item active">
+          <button class="faq-question" type="button">
+            <span>打开应用时提示 Apple 无法验证，如何处理？</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              <div class="faq-method-card">
+                <div class="faq-method-title">
+                  <span style="color:var(--orange);">●</span> 方式 1：系统设置中放行（推荐）
+                </div>
+                <div class="faq-method-desc">
+                  <ol>
+                    <li>直接双击被拦截后，打开 Mac <strong>「系统设置」→「隐私与安全性」</strong>；</li>
+                    <li>滑动到最下方安全性区域，会看到提示：<em>“已阻止使用‘截图套壳水印’...”</em>；</li>
+                    <li>点击旁边的 <strong>「仍要打开」</strong> 按钮并输入开机密码即可。</li>
+                  </ol>
+                </div>
+              </div>
+
+              <div class="faq-method-card">
+                <div class="faq-method-title">
+                  <span style="color:var(--cyan);">●</span> 方式 2：终端一行命令解除隔离（极速秒开）
+                </div>
+                <div class="faq-method-desc">
+                  打开 Mac 自带「终端」App，复制并执行以下命令：
+                  <div class="faq-cmd-box">
+                    <span class="faq-cmd-code">xattr -cr /Applications/截图套壳水印.app</span>
+                    <button class="faq-copy-btn" type="button" onclick="copyFaqCmd(this, 'xattr -cr /Applications/截图套壳水印.app')">COPY</button>
+                  </div>
+                  <div style="margin-top:8px;font-size:12px;color:var(--text-muted);">
+                    即可瞬间清除 macOS 针对第三方下载的隔离标记，直接双击秒开。
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- DOWNLOAD -->
   <section class="download-strip">
     <div class="container">
@@ -1891,6 +2087,44 @@
           console.warn("[Download] 自动获取最新安装包失败，使用默认 Releases 页面:", err);
         });
     })();
+
+    // 8. FAQ Accordion & Copy Helper
+    (function () {
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach(item => {
+        const questionBtn = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+        
+        if (item.classList.contains('active') && answer) {
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+
+        if (questionBtn && answer) {
+          questionBtn.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+            if (isActive) {
+              item.classList.remove('active');
+              answer.style.maxHeight = '0px';
+            } else {
+              item.classList.add('active');
+              answer.style.maxHeight = answer.scrollHeight + 'px';
+            }
+          });
+        }
+      });
+    })();
+
+    function copyFaqCmd(btn, text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const originText = btn.textContent;
+        btn.textContent = "COPIED";
+        btn.style.color = "#4ade80";
+        setTimeout(() => {
+          btn.textContent = originText;
+          btn.style.color = "";
+        }, 2000);
+      });
+    }
   </script>
 </body>
 </html>
