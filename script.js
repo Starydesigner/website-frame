@@ -217,6 +217,26 @@
       let timer = null;
       let isPaused = false;
 
+      const SCENE_DURATION = 3600; // 每个场景播放 3.6 秒
+      let progressTimer = null;
+      let startTime = Date.now();
+      let elapsedPaused = 0;
+
+      function resetAllProgressBars() {
+        pills.forEach(p => {
+          const bar = p.querySelector('.progress-bar');
+          if (bar) bar.style.width = '0%';
+        });
+      }
+
+      function updateActiveProgressBar(percent) {
+        const currentPill = pills[currentIndex];
+        if (currentPill) {
+          const bar = currentPill.querySelector('.progress-bar');
+          if (bar) bar.style.width = Math.min(100, Math.max(0, percent)) + '%';
+        }
+      }
+
       function switchScene(index) {
         if (index < 0 || index >= pills.length) return;
         currentIndex = index;
@@ -231,6 +251,10 @@
 
         if (titleEl) titleEl.textContent = targetPill.getAttribute('data-title');
         if (descEl) descEl.textContent = targetPill.getAttribute('data-desc');
+
+        resetAllProgressBars();
+        startTime = Date.now();
+        elapsedPaused = 0;
       }
 
       function nextScene() {
@@ -238,38 +262,123 @@
         switchScene(nextIdx);
       }
 
-      function startTimer() {
-        stopTimer();
-        timer = setInterval(() => {
+      function startProgressLoop() {
+        stopProgressLoop();
+        startTime = Date.now() - elapsedPaused;
+
+        progressTimer = setInterval(() => {
           if (!isPaused && !document.hidden) {
-            nextScene();
+            const elapsed = Date.now() - startTime;
+            const percent = (elapsed / SCENE_DURATION) * 100;
+            updateActiveProgressBar(percent);
+
+            if (elapsed >= SCENE_DURATION) {
+              nextScene();
+            }
+          } else if (isPaused) {
+            elapsedPaused = Date.now() - startTime;
           }
-        }, 3000);
+        }, 30);
       }
 
-      function stopTimer() {
-        if (timer) {
-          clearInterval(timer);
-          timer = null;
+      function stopProgressLoop() {
+        if (progressTimer) {
+          clearInterval(progressTimer);
+          progressTimer = null;
         }
       }
 
-      // 手动点击切换并重置定时器
+      // 手动点击切换并重置进度条
       pills.forEach((pill, idx) => {
         pill.addEventListener('click', () => {
           switchScene(idx);
-          startTimer();
+          startProgressLoop();
         });
       });
 
-      // 悬停暂停轮播，移出继续轮播
+      // 悬停暂停进度条，移出恢复充能
       if (demoSection) {
-        demoSection.addEventListener('mouseenter', () => { isPaused = true; });
-        demoSection.addEventListener('mouseleave', () => { isPaused = false; });
+        demoSection.addEventListener('mouseenter', () => { 
+          isPaused = true; 
+        });
+        demoSection.addEventListener('mouseleave', () => { 
+          isPaused = false; 
+          startTime = Date.now() - elapsedPaused;
+        });
       }
 
-      // 启动 3 秒自动轮播
-      startTimer();
+      // 启动 Story 进度条充能轮播
+      switchScene(0);
+      startProgressLoop();
+    })();
+
+    // 6. Demo Stage Trio Zoom & Watermark Modes (Scene 3 Trio Showcase & Scene 4 Watermark)
+    (function () {
+      // Scene 3: Trio Cards Hover / Click / Auto Zoom Focus
+      const trioCards = document.querySelectorAll('.trio-card');
+      let trioIndex = 1; // 默认 MacBook (主展示位)
+      let autoFocusTimer = null;
+
+      function setFocusCard(targetCard) {
+        trioCards.forEach(card => card.classList.remove('active'));
+        if (targetCard) targetCard.classList.add('active');
+      }
+
+      if (trioCards.length) {
+        trioCards.forEach((card, idx) => {
+          card.addEventListener('mouseenter', () => {
+            trioIndex = idx;
+            setFocusCard(card);
+          });
+          card.addEventListener('click', () => {
+            trioIndex = idx;
+            setFocusCard(card);
+          });
+        });
+
+        // 场景激活时轮流放大聚焦各个设备
+        autoFocusTimer = setInterval(() => {
+          const autoframingLayer = document.getElementById('layer-autoframing');
+          if (autoframingLayer && autoframingLayer.classList.contains('active') && !document.hidden) {
+            trioIndex = (trioIndex + 1) % trioCards.length;
+            setFocusCard(trioCards[trioIndex]);
+          }
+        }, 2200);
+      }
+
+      // Scene 4: Watermark Mode Pure Automated Smooth Transition
+      const cornerBadge = document.getElementById('wmCornerBadge');
+      const tileLayer = document.getElementById('wmTileLayer');
+      const modeTag = document.getElementById('wmCurrentModeTag');
+      let isCornerMode = true;
+
+      if (cornerBadge && tileLayer) {
+        setInterval(() => {
+          const watermarkLayer = document.getElementById('layer-autowatermark');
+          if (watermarkLayer && watermarkLayer.classList.contains('active') && !document.hidden) {
+            isCornerMode = !isCornerMode;
+            if (isCornerMode) {
+              cornerBadge.classList.add('active');
+              tileLayer.classList.remove('active');
+              if (modeTag) {
+                modeTag.innerHTML = '<span class="wm-pulse-dot">●</span> 模式 A：右下角品牌签名';
+                modeTag.style.color = 'var(--cyan)';
+                modeTag.style.borderColor = 'rgba(125, 211, 252, 0.25)';
+                modeTag.style.background = 'rgba(125, 211, 252, 0.12)';
+              }
+            } else {
+              tileLayer.classList.add('active');
+              cornerBadge.classList.remove('active');
+              if (modeTag) {
+                modeTag.innerHTML = '<span class="wm-pulse-dot" style="color:var(--red);">●</span> 模式 B：45° 全图平铺防伪';
+                modeTag.style.color = '#f87171';
+                modeTag.style.borderColor = 'rgba(248, 113, 113, 0.25)';
+                modeTag.style.background = 'rgba(248, 113, 113, 0.12)';
+              }
+            }
+          }
+        }, 2200);
+      }
     })();
 
     // 7. Auto Fetch Latest macOS Installer from GitHub Releases
