@@ -2078,3 +2078,291 @@
       color: var(--green);
       font-size: 10px;
     }
+
+
+    /* ==========================================================================
+       COFFEE SPONSOR BUTTON & MODAL
+       ========================================================================== */
+    .btn-coffee {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 8px;
+      background: rgba(232, 139, 82, 0.12);
+      border: 1px solid rgba(232, 139, 82, 0.35);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 14px;
+      font-family: var(--font-pixel);
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(232, 139, 82, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-coffee:hover {
+      background: rgba(232, 139, 82, 0.22);
+      border-color: rgba(232, 139, 82, 0.65);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(232, 139, 82, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    /* Coffee Modal Overlay */
+    .coffee-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 5, 8, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+    }
+    .coffee-modal-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .coffee-modal-card {
+      background: #0f121d;
+      border: 1px solid rgba(232, 139, 82, 0.35);
+      border-radius: 18px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.9), 0 0 50px rgba(232, 139, 82, 0.18);
+      width: 100%;
+      max-width: 620px;
+      padding: 32px 28px;
+      position: relative;
+      transform: scale(0.92) translateY(12px);
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .coffee-modal-overlay.show .coffee-modal-card {
+      transform: scale(1) translateY(0);
+    }
+    .coffee-modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      color: var(--text-muted);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      z-index: 10;
+    }
+    .coffee-modal-close:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* 左右分栏 Body */
+    .coffee-modal-body {
+      display: grid;
+      grid-template-columns: 210px 1fr;
+      gap: 28px;
+      align-items: center;
+    }
+    @media (max-width: 640px) {
+      .coffee-modal-card { max-width: 380px; padding: 24px 18px; }
+      .coffee-modal-body { grid-template-columns: 1fr; gap: 20px; justify-items: center; }
+    }
+
+    /* 左侧：赞赏二维码 */
+    .coffee-modal-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .coffee-qr-wrapper {
+      width: 200px;
+      height: 280px;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 6px;
+      position: relative;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7), 0 0 24px rgba(232, 139, 82, 0.2);
+      border: 2px solid rgba(232, 139, 82, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .coffee-qr-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+    }
+    .qr-glow-corner {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-color: var(--accent);
+      border-style: solid;
+      pointer-events: none;
+    }
+    .qr-glow-corner.tl { top: -2px; left: -2px; border-width: 2.5px 0 0 2.5px; border-radius: 3px 0 0 0; }
+    .qr-glow-corner.tr { top: -2px; right: -2px; border-width: 2.5px 2.5px 0 0; border-radius: 0 3px 0 0; }
+    .qr-glow-corner.bl { bottom: -2px; left: -2px; border-width: 0 0 2.5px 2.5px; border-radius: 0 0 0 3px; }
+    .qr-glow-corner.br { bottom: -2px; right: -2px; border-width: 0 2.5px 2.5px 0; border-radius: 0 0 3px 0; }
+
+    .coffee-qr-tip {
+      font-size: 11px;
+      color: var(--text-sub);
+      font-family: var(--font-pixel);
+      letter-spacing: 0.02em;
+    }
+
+    /* 右侧：插画 + 标题 + 文案 + 致谢 */
+    .coffee-modal-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+    }
+    @media (max-width: 640px) {
+      .coffee-modal-right { align-items: center; text-align: center; }
+    }
+
+    /* Pixel Art Coffee Animation */
+    .pixel-coffee-illu {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 14px;
+      position: relative;
+      height: 62px;
+      justify-content: flex-end;
+    }
+    @media (max-width: 640px) {
+      .pixel-coffee-illu { align-items: center; }
+    }
+    .steam-wrap {
+      display: flex;
+      gap: 6px;
+      position: absolute;
+      top: 0;
+      left: 22px;
+    }
+    @media (max-width: 640px) {
+      .steam-wrap { left: 50%; transform: translateX(-50%); }
+    }
+    .steam {
+      width: 3px;
+      height: 14px;
+      background: linear-gradient(180deg, transparent, #e88b52);
+      border-radius: 2px;
+      animation: steamRise 1.6s infinite ease-in-out;
+      opacity: 0;
+    }
+    .steam.s1 { animation-delay: 0s; }
+    .steam.s2 { animation-delay: 0.5s; height: 18px; }
+    .steam.s3 { animation-delay: 1.0s; }
+
+    @keyframes steamRise {
+      0% {
+        transform: translateY(12px) scaleX(0.8);
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-8px) scaleX(1.4);
+        opacity: 0;
+      }
+    }
+
+    .pixel-cup {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .cup-foam {
+      width: 36px;
+      height: 4px;
+      background: #fed7aa;
+      border-radius: 2px;
+      box-shadow: 0 0 6px rgba(254, 215, 170, 0.6);
+    }
+    .cup-body {
+      width: 42px;
+      height: 30px;
+      background: linear-gradient(180deg, #e88b52 0%, #c2410c 100%);
+      border: 2px solid #7c2d12;
+      border-radius: 2px 2px 8px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.25), 0 4px 12px rgba(0,0,0,0.5);
+    }
+    .pixel-heart {
+      font-size: 12px;
+      color: #fee2e2;
+      animation: heartBeat 1.2s infinite ease-in-out;
+    }
+    @keyframes heartBeat {
+      0%, 100% { transform: scale(1); opacity: 0.85; }
+      50% { transform: scale(1.35); opacity: 1; color: #ef4444; text-shadow: 0 0 8px rgba(239, 68, 68, 0.8); }
+    }
+    .cup-handle {
+      position: absolute;
+      right: -8px;
+      top: 5px;
+      width: 10px;
+      height: 15px;
+      border: 2.5px solid #c2410c;
+      border-left: none;
+      border-radius: 0 6px 6px 0;
+    }
+    .cup-saucer {
+      width: 54px;
+      height: 5px;
+      background: #7c2d12;
+      border-radius: 3px;
+      margin-top: 2px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .coffee-modal-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+    .coffee-modal-desc {
+      font-size: 13.5px;
+      color: #cbd5e1;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .coffee-modal-foot {
+      font-size: 11px;
+      color: var(--text-sub);
+      font-family: var(--font-pixel);
+      letter-spacing: 0.03em;
+    }
+    .pixel-tag {
+      color: var(--accent);
+      background: rgba(232, 139, 82, 0.12);
+      padding: 4px 10px;
+      border-radius: 4px;
+      border: 1px solid rgba(232, 139, 82, 0.25);
+    }

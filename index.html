@@ -19,7 +19,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Silkscreen:wght@400;700&family=Press+Start+2P&family=Pixelify+Sans:wght@500;600;700&display=swap" rel="stylesheet">
 
   <!-- Main Stylesheet (with cache-busting version) -->
-  <link rel="stylesheet" href="style.css?v=20260901_2010">
+  <link rel="stylesheet" href="style.css?v=20260901_2035">
 </head>
 <body>
 
@@ -730,10 +730,13 @@
       <h2 style="font-size:26px;font-weight:800;margin-bottom:10px;letter-spacing:-0.02em;">准备好升级你的截图流了吗？</h2>
       <p style="color:var(--text-sub);font-size:14.5px;">告别繁重排版，让每一次分享都惊艳且专业。</p>
 
-      <div style="margin-top:24px;">
+      <div style="margin-top:24px;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;">
         <a href="https://github.com/Starydesigner/ShotMock/releases" class="btn btn-main js-download-btn">
           免费下载 macOS 版
         </a>
+        <button type="button" class="btn btn-coffee" id="btnOpenCoffee">
+          ☕️ 给作者点杯咖啡
+        </button>
       </div>
     </div>
   </section>
@@ -744,6 +747,59 @@
       <div style="font-family:var(--font-pixel);">ShotMock 截图套壳水印 · 为 Mac 截图而生</div>
     </div>
   </footer>
+
+  <!-- COFFEE SPONSOR MODAL -->
+  <div class="coffee-modal-overlay" id="coffeeModal" aria-hidden="true">
+    <div class="coffee-modal-card" role="dialog" aria-modal="true" aria-labelledby="coffeeModalTitle">
+      <button class="coffee-modal-close" id="closeCoffeeModal" type="button" aria-label="关闭">✕</button>
+      
+      <div class="coffee-modal-body">
+        <!-- 左侧：赞赏二维码图片 -->
+        <div class="coffee-modal-left">
+          <div class="coffee-qr-wrapper">
+            <img src="coffee-qr.jpg" alt="支付宝赞赏码" class="coffee-qr-img">
+            <div class="qr-glow-corner tl"></div>
+            <div class="qr-glow-corner tr"></div>
+            <div class="qr-glow-corner bl"></div>
+            <div class="qr-glow-corner br"></div>
+          </div>
+          <div class="coffee-qr-tip">📱 手机支付宝扫码支持</div>
+        </div>
+
+        <!-- 右侧：动态插画 + 文案 + 致谢 -->
+        <div class="coffee-modal-right">
+          <!-- 动态像素风咖啡插画 (Pixel Art Coffee Animation with Steaming Vapor) -->
+          <div class="pixel-coffee-illu">
+            <div class="steam-wrap">
+              <span class="steam s1"></span>
+              <span class="steam s2"></span>
+              <span class="steam s3"></span>
+            </div>
+            <div class="pixel-cup">
+              <div class="cup-foam"></div>
+              <div class="cup-body">
+                <span class="pixel-heart">♥</span>
+              </div>
+              <div class="cup-handle"></div>
+              <div class="cup-saucer"></div>
+            </div>
+          </div>
+
+          <h3 class="coffee-modal-title" id="coffeeModalTitle">☕️ 给作者点杯咖啡</h3>
+          
+          <p class="coffee-modal-desc">
+            如果这款软件让你用得开心，欢迎用一杯咖啡“投喂”开发者。<br>
+            放心，收到的赞赏都会变成键盘上的敲击声和更多好玩的新功能！
+          </p>
+
+          <div class="coffee-modal-foot">
+            <span class="pixel-tag">❤️ 感谢你的鼓励与支持</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   <!-- DOWNLOAD LOADING / PAN FALLBACK MODAL -->
   <div class="download-modal-overlay" id="downloadModal" aria-hidden="true">
@@ -785,6 +841,6 @@
 
   <!-- SCRIPT: MULTI-COLOR SEQUENTIAL TYPING ANIMATION, MOUSE DYNAMICS & SCENE SWITCHER -->
   <!-- Main Interactive Script (with cache-busting version) -->
-  <script src="script.js?v=20260901_2010" defer></script>
+  <script src="script.js?v=20260901_2035" defer></script>
 </body>
 </html>

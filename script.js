@@ -517,3 +517,44 @@
         }
       });
     })();
+
+    // 10. Coffee Sponsor Modal Open/Close Logic
+    (function () {
+      const openBtn = document.getElementById('btnOpenCoffee');
+      const modal = document.getElementById('coffeeModal');
+      const closeBtn = document.getElementById('closeCoffeeModal');
+
+      function openCoffeeModal() {
+        if (modal) {
+          modal.classList.add('show');
+          modal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+        }
+      }
+
+      function closeCoffeeModal() {
+        if (modal) {
+          modal.classList.remove('show');
+          modal.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+      }
+
+      if (openBtn) {
+        openBtn.addEventListener('click', openCoffeeModal);
+      }
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeCoffeeModal);
+      }
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) closeCoffeeModal();
+        });
+      }
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal && modal.classList.contains('show')) {
+          closeCoffeeModal();
+        }
+      });
+    })();
