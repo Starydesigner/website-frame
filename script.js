@@ -411,8 +411,7 @@
           }
         })
         .catch(err => {
-          // 降级处理：保持默认打开 releases 页面
-          console.warn("[Download] 自动获取最新安装包失败，使用默认 Releases 页面:", err);
+          console.warn("[Download] 自动获取最新安装包失败:", err);
         });
     })();
 
@@ -440,6 +439,16 @@
           });
         }
       });
+
+      // 视口尺寸变化（如移动端横竖屏切换或窗口缩放）时重新计算已展开答案高度
+      window.addEventListener('resize', () => {
+        faqItems.forEach(item => {
+          if (item.classList.contains('active')) {
+            const answer = item.querySelector('.faq-answer');
+            if (answer) answer.style.maxHeight = answer.scrollHeight + 'px';
+          }
+        });
+      }, { passive: true });
     })();
 
     function copyFaqCmd(btn, text) {
@@ -454,71 +463,7 @@
       });
     }
 
-    // 9. Download Flow Optimization & 3s Fallback Modal
-    (function () {
-      const modal = document.getElementById('downloadModal');
-      const closeBtn = document.getElementById('closeDlModal');
-      const panBtn = document.getElementById('panDownloadBtn');
-      const downloadButtons = document.querySelectorAll('.js-download-btn');
-      
-      let timer = null;
-
-      function openModal() {
-        if (modal) {
-          modal.classList.add('show');
-          modal.setAttribute('aria-hidden', 'false');
-        }
-      }
-
-      function closeModal() {
-        if (modal) {
-          modal.classList.remove('show');
-          modal.setAttribute('aria-hidden', 'true');
-        }
-        if (timer) {
-          clearTimeout(timer);
-          timer = null;
-        }
-      }
-
-      downloadButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          // 清除上一次的定时器
-          if (timer) clearTimeout(timer);
-
-          // 3 秒内若未完成下载响应则唤起弹层提示
-          timer = setTimeout(() => {
-            openModal();
-          }, 3000);
-        });
-      });
-
-      // 点击免登录网盘下载直接关闭弹层
-      if (panBtn) {
-        panBtn.addEventListener('click', () => {
-          closeModal();
-        });
-      }
-
-      // 关闭按钮和遮罩层点击关闭
-      if (closeBtn) {
-        closeBtn.addEventListener('click', closeModal);
-      }
-      if (modal) {
-        modal.addEventListener('click', (e) => {
-          if (e.target === modal) closeModal();
-        });
-      }
-
-      // ESC 键关闭
-      window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal && modal.classList.contains('show')) {
-          closeModal();
-        }
-      });
-    })();
-
-    // 10. Coffee Sponsor Modal Open/Close Logic
+    // 9. Coffee Sponsor Modal Open/Close Logic
     (function () {
       const openBtn = document.getElementById('btnOpenCoffee');
       const modal = document.getElementById('coffeeModal');

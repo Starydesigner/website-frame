@@ -1,0 +1,8 @@
+# Ignore Xiaohongshu marketing materials
+xiaohongshu/
+
+# OS / Editor generated
+.DS_Store
+*.swp
+.vscode/
+.idea/
